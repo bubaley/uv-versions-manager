@@ -1,7 +1,6 @@
 # Compiled output
 out/
 *.vsix
-uv-versions-manager-*.vsix
 
 # Node.js
 node_modules/
@@ -22,7 +21,6 @@ coverage/
 .nyc_output
 
 # Dependency directories
-node_modules/
 jspm_packages/
 
 # Optional npm cache directory
@@ -55,4 +53,9 @@ logs
 *.log
 
 # TypeScript
-*.tsbuildinfo 
+*.tsbuildinfo
+
+# Test files (these are for development only)
+test-*
+pyproject.toml
+uv.lock 
