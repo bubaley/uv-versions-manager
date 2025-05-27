@@ -1,4 +1,4 @@
-# Python Dependency Tracker
+# UV Versions Manager
 
 A VS Code extension that parses `pyproject.toml` and `uv.lock` files in your project and displays dependency version information.
 
@@ -33,10 +33,10 @@ A VS Code extension that parses `pyproject.toml` and `uv.lock` files in your pro
 
 ## Commands
 
-- `Python Dependency Tracker: Refresh dependency version information` - Force refresh
-- `Python Dependency Tracker: Check outdated dependencies` - Show list of outdated packages
-- `Python Dependency Tracker: Update to installed version` - Update dependency to installed version
-- `Python Dependency Tracker: Update to latest version` - Update dependency to latest version
+- `UV Versions Manager: Refresh dependency version information` - Force refresh
+- `UV Versions Manager: Check outdated dependencies` - Show list of outdated packages
+- `UV Versions Manager: Update to installed version` - Update dependency to installed version
+- `UV Versions Manager: Update to latest version` - Update dependency to latest version
 
 ## Settings
 
@@ -54,7 +54,7 @@ A VS Code extension that parses `pyproject.toml` and `uv.lock` files in your pro
 ### From VS Code Marketplace
 1. Open VS Code
 2. Go to Extensions (Ctrl+Shift+X)
-3. Search for "Python Dependency Tracker"
+3. Search for "UV Versions Manager"
 4. Click Install
 
 ### Manual Installation
@@ -86,4 +86,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-If you encounter any issues or have feature requests, please create an issue on [GitHub](https://github.com/bubaley/python-dependency-tracker/issues). 
+If you encounter any issues or have feature requests, please create an issue on [GitHub](https://github.com/bubaley/uv-versions-manager/issues). 

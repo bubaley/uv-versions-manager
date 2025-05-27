@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "Python Dependency Tracker" extension will be documented in this file.
+All notable changes to the "UV Versions Manager" extension will be documented in this file.
 
 ## [0.0.3] - 2024-01-XX
 

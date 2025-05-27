@@ -37,7 +37,7 @@
 
 1. Create a repository on GitHub:
    - Go to https://github.com/new
-   - Repository name: `python-dependency-tracker`
+   - Repository name: `uv-versions-manager`
    - Description: `VS Code extension that parses pyproject.toml and uv.lock to display dependency version information`
    - Make it public
    - Don't initialize with README (we already have one)
@@ -52,7 +52,7 @@
    - Go to your repository on GitHub
    - Click "Releases" > "Create a new release"
    - Tag version: `v0.0.3`
-   - Release title: `Python Dependency Tracker v0.0.3`
+   - Release title: `UV Versions Manager v0.0.3`
    - Attach the `.vsix` file to the release
 
 ## Version Management

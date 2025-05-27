@@ -1,12 +1,12 @@
 {
-  "name": "python-dependency-tracker",
-  "displayName": "Python Dependency Tracker",
+  "name": "uv-versions-manager",
+  "displayName": "UV Versions Manager",
   "description": "Parses pyproject.toml and uv.lock to display installed and latest dependency versions",
   "version": "0.0.3",
   "publisher": "bubaley",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bubaley/python-dependency-tracker"
+    "url": "https://github.com/bubaley/uv-versions-manager"
   },
   "engines": {
     "vscode": "^1.74.0"
@@ -20,11 +20,13 @@
     "dependencies",
     "pyproject.toml",
     "uv.lock",
+    "uv",
     "package manager",
     "version tracking",
     "dependency management"
   ],
   "license": "MIT",
+  "icon": "image.jpg",
   "activationEvents": [
     "onLanguage:toml",
     "onStartupFinished",
@@ -34,7 +36,7 @@
   "main": "./out/extension.js",
   "contributes": {
     "configuration": {
-      "title": "Python Dependency Tracker",
+      "title": "UV Versions Manager",
       "properties": {
         "pythonDependencyTracker.enableAutoCheck": {
           "type": "boolean",
