@@ -1,0 +1,90 @@
+{
+  "name": "python-dependency-tracker",
+  "displayName": "Python Dependency Tracker",
+  "description": "Parses pyproject.toml and uv.lock to display installed and latest dependency versions",
+  "version": "0.0.3",
+  "publisher": "bubaley",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bubaley/python-dependency-tracker"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "python",
+    "dependencies",
+    "pyproject.toml",
+    "uv.lock",
+    "package manager",
+    "version tracking",
+    "dependency management"
+  ],
+  "license": "MIT",
+  "activationEvents": [
+    "onLanguage:toml",
+    "onStartupFinished",
+    "workspaceContains:pyproject.toml",
+    "workspaceContains:uv.lock"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Python Dependency Tracker",
+      "properties": {
+        "pythonDependencyTracker.enableAutoCheck": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically check for latest dependency versions"
+        },
+        "pythonDependencyTracker.checkInterval": {
+          "type": "number",
+          "default": 300000,
+          "description": "Interval for checking latest versions in milliseconds (default 5 minutes)"
+        },
+        "pythonDependencyTracker.showVersions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show dependency version information in CodeLens"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "pythonDependencyTracker.refreshVersions",
+        "title": "Refresh dependency version information"
+      },
+      {
+        "command": "pythonDependencyTracker.checkOutdated",
+        "title": "Check outdated dependencies"
+      },
+      {
+        "command": "pythonDependencyTracker.updateToInstalled",
+        "title": "Update to installed version"
+      },
+      {
+        "command": "pythonDependencyTracker.updateToLatest",
+        "title": "Update to latest version"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "@types/node-fetch": "^2.6.12",
+    "node-fetch": "^2.7.0"
+  }
+}
