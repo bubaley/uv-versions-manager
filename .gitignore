@@ -1,6 +1,7 @@
 # Compiled output
 out/
 *.vsix
+uv-versions-manager-*.vsix
 
 # Node.js
 node_modules/
