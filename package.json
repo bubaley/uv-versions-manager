@@ -2,7 +2,7 @@
   "name": "uv-versions-manager",
   "displayName": "UV Versions Manager",
   "description": "Parses pyproject.toml and uv.lock to display installed and latest dependency versions",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "bubaley",
   "repository": {
     "type": "git",
@@ -26,7 +26,7 @@
     "dependency management"
   ],
   "license": "MIT",
-  "icon": "image.jpg",
+  "icon": "image.png",
   "activationEvents": [
     "onLanguage:toml",
     "onStartupFinished",
