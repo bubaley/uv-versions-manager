@@ -2,7 +2,7 @@
 
 VS Code extension for tracking Python dependency versions in projects with `pyproject.toml` and `uv.lock`.
 
-![Extension Demo](https://github.com/user-attachments/assets/dc835ecb-8813-4396-8ba5-b1c8347960cf)
+<img alt="SCR-20250528-dcpv (1)" src="https://github.com/user-attachments/assets/0d13c360-6219-4537-bf1c-31dbf736364d" />
 
 ## Features
 
