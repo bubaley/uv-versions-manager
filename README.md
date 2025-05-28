@@ -2,6 +2,8 @@
 
 A VS Code extension that parses `pyproject.toml` and `uv.lock` files in your project and displays dependency version information.
 
+<img width="489" alt="SCR-20250528-ctui" src="https://github.com/user-attachments/assets/dc835ecb-8813-4396-8ba5-b1c8347960cf" />
+
 ## Features
 
 - 📦 Parse `pyproject.toml` to extract dependencies
