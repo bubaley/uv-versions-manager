@@ -205,7 +205,24 @@ export class DependencyTracker {
 
     const terminal = vscode.window.createTerminal("UV Upgrade");
     terminal.sendText(`cd "${workspaceFolders[0].uri.fsPath}"`);
-    terminal.sendText(`uv add --upgrade ${dependency.map((d) => d.name).join(" ")}`);
+    
+    // Group dependencies by their group
+    const groupedDeps = new Map<string | undefined, string[]>();
+    dependency.forEach(dep => {
+      const group = dep.group;
+      if (!groupedDeps.has(group)) {
+        groupedDeps.set(group, []);
+      }
+      groupedDeps.get(group)!.push(dep.name);
+    });
+
+    // Execute upgrade commands for each group
+    for (const [group, deps] of groupedDeps) {
+      const packageNames = deps.join(" ");
+      const groupFlag = group ? ` --group ${group}` : "";
+      terminal.sendText(`uv add --upgrade${groupFlag} ${packageNames}`);
+    }
+    
     terminal.show();
 
     setTimeout(() => this.refreshVersions(), 1000);
@@ -253,8 +270,23 @@ export class DependencyTracker {
     const terminal = vscode.window.createTerminal("UV Upgrade All");
     terminal.sendText(`cd "${workspaceFolders[0].uri.fsPath}"`);
 
-    const packageNames = needsUpgrade.map((dep) => dep.name).join(" ");
-    terminal.sendText(`uv add --upgrade ${packageNames}`);
+    // Group dependencies by their group
+    const groupedDeps = new Map<string | undefined, string[]>();
+    needsUpgrade.forEach(dep => {
+      const group = dep.group;
+      if (!groupedDeps.has(group)) {
+        groupedDeps.set(group, []);
+      }
+      groupedDeps.get(group)!.push(dep.name);
+    });
+
+    // Execute upgrade commands for each group
+    for (const [group, deps] of groupedDeps) {
+      const packageNames = deps.join(" ");
+      const groupFlag = group ? ` --group ${group}` : "";
+      terminal.sendText(`uv add --upgrade${groupFlag} ${packageNames}`);
+    }
+
     terminal.show();
 
     // Обновляем информацию о зависимостях после небольшой задержки

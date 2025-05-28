@@ -11,4 +11,5 @@ export interface Dependency {
     originalLine: string;
     isUpToDate?: boolean;
     lineText: string;
+    group?: string;
 } 

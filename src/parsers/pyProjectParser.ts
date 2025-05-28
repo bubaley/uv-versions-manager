@@ -66,6 +66,10 @@ export class PyProjectParser {
             console.log(`PyProjectParser: Processing dependency from ${source}:`, depString);
             const dependency = this.parseDependencyString(depString, source, index, lines);
             if (dependency) {
+                // Extract group from source (e.g., "dependency-groups.dev" -> "dev")
+                if (source.startsWith('dependency-groups.')) {
+                    dependency.group = source.split('.')[1];
+                }
                 console.log(`PyProjectParser: Dependency from ${source} parsed:`, dependency);
                 dependencies.push(dependency);
             }

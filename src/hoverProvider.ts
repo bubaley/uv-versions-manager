@@ -62,6 +62,11 @@ export class DependencyHoverProvider implements vscode.HoverProvider {
             contents.appendMarkdown(`**Description:** ${dependency.summary}\n\n`);
         }
 
+        // Group information
+        if (dependency.group) {
+            contents.appendMarkdown(`**Group:** \`${dependency.group}\`\n\n`);
+        }
+
         // Version information
         contents.appendMarkdown(`**Versions:**\n`);
         contents.appendMarkdown(`- Requested: \`${dependency.requestedVersion}\`\n`);
