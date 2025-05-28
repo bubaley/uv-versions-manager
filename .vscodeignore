@@ -1,6 +1,7 @@
 .vscode/**
 .vscode-test/**
 src/**
+out/**
 .gitignore
 .yarnrc
 vsc-extension-quickstart.md
@@ -11,6 +12,7 @@ vsc-extension-quickstart.md
 test-*
 uv.lock
 pyproject.toml
+webpack.config.js
 node_modules/**
 .git/**
 *.vsix 

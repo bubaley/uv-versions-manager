@@ -2,6 +2,18 @@
 
 All notable changes to the "UV Versions Manager" extension will be documented in this file.
 
+## [0.0.5] - 2024-12-19
+
+### Fixed
+- Fixed extension not working when installed from VSIX package
+- Resolved dependency loading issues by implementing webpack bundling
+- Improved package size and performance with single bundled file
+
+### Changed
+- Migrated from TypeScript compilation to webpack bundling
+- Updated build process to include all dependencies in bundle
+- Optimized package size from 512KB to 354KB
+
 ## [0.0.3] - 2024-01-XX
 
 ### Added
