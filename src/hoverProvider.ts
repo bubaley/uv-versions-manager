@@ -1,11 +1,14 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { Dependency } from './types';
 
 export class DependencyHoverProvider implements vscode.HoverProvider {
     private dependencies: Dependency[] = [];
+    private pyprojectPath?: string;
 
-    updateDependencies(dependencies: Dependency[]): void {
+    updateDependencies(dependencies: Dependency[], pyprojectPath?: string): void {
         this.dependencies = dependencies;
+        this.pyprojectPath = pyprojectPath;
     }
 
     provideHover(
@@ -14,6 +17,13 @@ export class DependencyHoverProvider implements vscode.HoverProvider {
         token: vscode.CancellationToken
     ): vscode.ProviderResult<vscode.Hover> {
         if (!document.fileName.endsWith('pyproject.toml')) {
+            return null;
+        }
+
+        if (
+            this.pyprojectPath &&
+            path.normalize(document.fileName) !== path.normalize(this.pyprojectPath)
+        ) {
             return null;
         }
 

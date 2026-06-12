@@ -7,11 +7,14 @@ import { VersionChecker } from "./versionChecker";
 import { DependencyCodeLensProvider } from "./codeLensProvider";
 import { DependencyHoverProvider } from "./hoverProvider";
 import { Dependency } from "./types";
+import { resolveProjectRoot } from "./projectRoot";
 
 export class DependencyTracker {
   private disposables: vscode.Disposable[] = [];
   private dependencies: Dependency[] = [];
   private refreshTimer?: NodeJS.Timer;
+  private projectRoot?: string;
+  private pyprojectPath?: string;
 
   constructor(
     private pyProjectParser: PyProjectParser,
@@ -34,22 +37,24 @@ export class DependencyTracker {
 
   async refreshVersions(): Promise<void> {
     console.log("DependencyTracker: Starting version information update");
-    const workspaceFolders = vscode.workspace.workspaceFolders;
-    console.log(
-      "DependencyTracker: Workspace folders:",
-      workspaceFolders?.map((f) => f.uri.fsPath)
-    );
 
-    if (!workspaceFolders || workspaceFolders.length === 0) {
-      console.log("DependencyTracker: No workspace folders, exiting");
+    const projectRoot = await resolveProjectRoot();
+    if (!projectRoot) {
+      console.log("DependencyTracker: pyproject.toml not found, exiting");
+      this.dependencies = [];
+      this.projectRoot = undefined;
+      this.pyprojectPath = undefined;
+      this.updateCodeLens();
       return;
     }
-    const workspacePath = workspaceFolders[0].uri.fsPath;
-    console.log("DependencyTracker: Using workspace folder:", workspacePath);
+
+    this.projectRoot = projectRoot;
+    this.pyprojectPath = path.join(projectRoot, "pyproject.toml");
+    console.log("DependencyTracker: Using project root:", projectRoot);
 
     // Parse pyproject.toml
     console.log("DependencyTracker: Parsing pyproject.toml");
-    this.dependencies = this.pyProjectParser.parseDependencies(workspacePath);
+    this.dependencies = this.pyProjectParser.parseDependencies(projectRoot);
     console.log(
       "DependencyTracker: Found dependencies in pyproject.toml:",
       this.dependencies.length
@@ -58,7 +63,7 @@ export class DependencyTracker {
     // Parse uv.lock
     console.log("DependencyTracker: Parsing uv.lock");
     const installedPackages =
-      this.uvLockParser.parseInstalledPackages(workspacePath);
+      this.uvLockParser.parseInstalledPackages(projectRoot);
     console.log(
       "DependencyTracker: Found installed packages in uv.lock:",
       installedPackages.size
@@ -166,8 +171,14 @@ export class DependencyTracker {
   }
 
   private updateCodeLens(): void {
-    this.codeLensProvider.updateDependencies(this.dependencies);
-    this.hoverProvider.updateDependencies(this.dependencies);
+    this.codeLensProvider.updateDependencies(
+      this.dependencies,
+      this.pyprojectPath
+    );
+    this.hoverProvider.updateDependencies(
+      this.dependencies,
+      this.pyprojectPath
+    );
   }
 
   async toggleShowVersions(): Promise<void> {
@@ -198,13 +209,12 @@ export class DependencyTracker {
   }
 
   async upgradeToLatest(dependency: Dependency[]): Promise<void> {
-    const workspaceFolders = vscode.workspace.workspaceFolders;
-    if (!workspaceFolders || workspaceFolders.length === 0) {
+    if (!this.projectRoot) {
       return;
     }
 
     const terminal = vscode.window.createTerminal("UV Upgrade");
-    terminal.sendText(`cd "${workspaceFolders[0].uri.fsPath}"`);
+    terminal.sendText(`cd "${this.projectRoot}"`);
     
     // Group dependencies by their group
     const groupedDeps = new Map<string | undefined, string[]>();
@@ -267,8 +277,12 @@ export class DependencyTracker {
       return;
     }
 
+    if (!this.projectRoot) {
+      return;
+    }
+
     const terminal = vscode.window.createTerminal("UV Upgrade All");
-    terminal.sendText(`cd "${workspaceFolders[0].uri.fsPath}"`);
+    terminal.sendText(`cd "${this.projectRoot}"`);
 
     // Group dependencies by their group
     const groupedDeps = new Map<string | undefined, string[]>();
@@ -294,18 +308,12 @@ export class DependencyTracker {
   }
 
   private async updateVersionInFile(dependency: Dependency): Promise<void> {
-    const workspaceFolders = vscode.workspace.workspaceFolders;
-    if (!workspaceFolders || workspaceFolders.length === 0) {
+    if (!this.pyprojectPath) {
       return;
     }
 
-    const pyprojectPath = path.join(
-      workspaceFolders[0].uri.fsPath,
-      "pyproject.toml"
-    );
-
     try {
-      const content = fs.readFileSync(pyprojectPath, "utf8");
+      const content = fs.readFileSync(this.pyprojectPath, "utf8");
       const lines = content.split("\n");
       console.log(lines[dependency.line], dependency.name);
       let line = lines[dependency.line];
@@ -314,7 +322,7 @@ export class DependencyTracker {
 
       lines[dependency.line] = line;
 
-      fs.writeFileSync(pyprojectPath, lines.join("\n"), "utf8");
+      fs.writeFileSync(this.pyprojectPath, lines.join("\n"), "utf8");
 
       vscode.window.showInformationMessage(
         `Updated ${dependency.name} to version ${dependency.installedVersion}`

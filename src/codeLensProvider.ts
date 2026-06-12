@@ -1,8 +1,10 @@
 import * as vscode from "vscode";
+import * as path from "path";
 import { Dependency } from "./types";
 
 export class DependencyCodeLensProvider implements vscode.CodeLensProvider {
   private dependencies: Dependency[] = [];
+  private pyprojectPath?: string;
   private _onDidChangeCodeLenses: vscode.EventEmitter<void> =
     new vscode.EventEmitter<void>();
   public readonly onDidChangeCodeLenses: vscode.Event<void> =
@@ -15,8 +17,12 @@ export class DependencyCodeLensProvider implements vscode.CodeLensProvider {
     this.showVersions = config.get<boolean>("showVersions", true);
   }
 
-  updateDependencies(dependencies: Dependency[]): void {
+  updateDependencies(
+    dependencies: Dependency[],
+    pyprojectPath?: string
+  ): void {
     this.dependencies = dependencies;
+    this.pyprojectPath = pyprojectPath;
     console.log(
       "CodeLensProvider: Updating dependencies:",
       dependencies.length
@@ -44,6 +50,13 @@ export class DependencyCodeLensProvider implements vscode.CodeLensProvider {
     token: vscode.CancellationToken
   ): vscode.CodeLens[] | Thenable<vscode.CodeLens[]> {
     if (!document.fileName.endsWith("pyproject.toml")) {
+      return [];
+    }
+
+    if (
+      this.pyprojectPath &&
+      path.normalize(document.fileName) !== path.normalize(this.pyprojectPath)
+    ) {
       return [];
     }
 

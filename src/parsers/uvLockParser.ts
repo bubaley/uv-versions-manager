@@ -4,8 +4,8 @@ import * as toml from '@iarna/toml';
 
 export class UvLockParser {
     
-    parseInstalledPackages(workspacePath: string): Map<string, string> {
-        const uvLockPath = path.join(workspacePath, 'uv.lock');
+    parseInstalledPackages(projectRoot: string): Map<string, string> {
+        const uvLockPath = path.join(projectRoot, 'uv.lock');
         
         if (!fs.existsSync(uvLockPath)) {
             return new Map();

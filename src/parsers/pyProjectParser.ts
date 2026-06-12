@@ -5,8 +5,8 @@ import { Dependency } from '../types';
 
 export class PyProjectParser {
     
-    parseDependencies(workspacePath: string): Dependency[] {
-        const pyprojectPath = path.join(workspacePath, 'pyproject.toml');
+    parseDependencies(projectRoot: string): Dependency[] {
+        const pyprojectPath = path.join(projectRoot, 'pyproject.toml');
         console.log('PyProjectParser: Checking file:', pyprojectPath);
         
         if (!fs.existsSync(pyprojectPath)) {

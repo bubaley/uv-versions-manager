@@ -30,8 +30,8 @@
   "activationEvents": [
     "onLanguage:toml",
     "onStartupFinished",
-    "workspaceContains:pyproject.toml",
-    "workspaceContains:uv.lock"
+    "workspaceContains:**/pyproject.toml",
+    "workspaceContains:**/uv.lock"
   ],
   "main": "./dist/extension.js",
   "contributes": {
